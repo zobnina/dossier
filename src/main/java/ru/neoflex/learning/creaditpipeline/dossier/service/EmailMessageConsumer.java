@@ -1,8 +1,5 @@
 package ru.neoflex.learning.creaditpipeline.dossier.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -15,53 +12,46 @@ import ru.neoflex.learning.creaditpipeline.dossier.model.EmailMessage;
 public class EmailMessageConsumer {
 
     private final EmailMessageService emailMessageService;
-    private final ObjectMapper objectMapper = JsonMapper.builder().findAndAddModules().build();
 
     @KafkaListener(topics = "#{'${kafka.topic.finish-registration}'}")
-    public void finishRegistrationConsume(String message) throws JsonProcessingException {
+    public void finishRegistrationConsume(EmailMessage emailMessage) {
 
-        log.info("finishRegistrationConsume() - start: message = {}", message);
-        EmailMessage emailMessage = objectMapper.readValue(message, EmailMessage.class);
+        log.info("finishRegistrationConsume() - start: message = {}", emailMessage);
         emailMessageService.emailSender(emailMessage);
     }
 
     @KafkaListener(topics = "#{'${kafka.topic.create-documents}'}")
-    public void createDocumentsConsume(String message) throws JsonProcessingException {
+    public void createDocumentsConsume(EmailMessage emailMessage) {
 
-        log.info("createDocumentsConsume() - start: message = {}", message);
-        EmailMessage emailMessage = objectMapper.readValue(message, EmailMessage.class);
+        log.info("createDocumentsConsume() - start: message = {}", emailMessage);
         emailMessageService.emailSender(emailMessage);
     }
 
     @KafkaListener(topics = "#{'${kafka.topic.send-documents}'}")
-    public void sendDocumentsConsume(String message) throws JsonProcessingException {
+    public void sendDocumentsConsume(EmailMessage emailMessage) {
 
-        log.info("sendDocumentsConsume() - start: message = {}", message);
-        EmailMessage emailMessage = objectMapper.readValue(message, EmailMessage.class);
+        log.info("sendDocumentsConsume() - start: message = {}", emailMessage);
         emailMessageService.emailSender(emailMessage);
     }
 
     @KafkaListener(topics = "#{'${kafka.topic.send-ses}'}")
-    public void sendSesConsume(String message) throws JsonProcessingException {
+    public void sendSesConsume(EmailMessage emailMessage) {
 
-        log.info("sendSesConsume() - start: message = {}", message);
-        EmailMessage emailMessage = objectMapper.readValue(message, EmailMessage.class);
+        log.info("sendSesConsume() - start: message = {}", emailMessage);
         emailMessageService.emailSender(emailMessage);
     }
 
     @KafkaListener(topics = "#{'${kafka.topic.credit-issued}'}")
-    public void creditIssuedConsume(String message) throws JsonProcessingException {
+    public void creditIssuedConsume(EmailMessage emailMessage) {
 
-        log.info("creditIssuedConsume() - start: message = {}", message);
-        EmailMessage emailMessage = objectMapper.readValue(message, EmailMessage.class);
+        log.info("creditIssuedConsume() - start: message = {}", emailMessage);
         emailMessageService.emailSender(emailMessage);
     }
 
     @KafkaListener(topics = "#{'${kafka.topic.application-denied}'}")
-    public void applicationDeniedConsume(String message) throws JsonProcessingException {
+    public void applicationDeniedConsume(EmailMessage emailMessage) {
 
-        log.info("applicationDeniedConsume() - start: message = {}", message);
-        EmailMessage emailMessage = objectMapper.readValue(message, EmailMessage.class);
+        log.info("applicationDeniedConsume() - start: message = {}", emailMessage);
         emailMessageService.emailSender(emailMessage);
     }
 }

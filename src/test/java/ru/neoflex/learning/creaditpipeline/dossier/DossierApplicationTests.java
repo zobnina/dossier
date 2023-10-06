@@ -26,7 +26,6 @@ import ru.neoflex.learning.creaditpipeline.dossier.service.EmailMessageConsumer;
 import ru.neoflex.learning.creaditpipeline.dossier.service.EmailMessageService;
 
 import java.util.Map;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -93,7 +92,7 @@ class DossierApplicationTests {
         final EmailMessage emailMessage = getEmailMessage(Theme.FINISH_REGISTRATION);
         final String message = JSON_MAPPER.writeValueAsString(emailMessage);
         producer.send(new ProducerRecord<>("finish-registration", message));
-        verify(emailMessageConsumer, after(DELAY)).finishRegistrationConsume(message);
+        verify(emailMessageConsumer, after(DELAY)).finishRegistrationConsume(emailMessage);
         verify(emailMessageService).emailSender(emailMessage);
         verify(javaMailSender).send(any(SimpleMailMessage.class));
     }
@@ -103,7 +102,7 @@ class DossierApplicationTests {
         final EmailMessage emailMessage = getEmailMessage(Theme.CREATE_DOCUMENTS);
         final String message = JSON_MAPPER.writeValueAsString(emailMessage);
         producer.send(new ProducerRecord<>("create-documents", message));
-        verify(emailMessageConsumer, after(DELAY)).createDocumentsConsume(message);
+        verify(emailMessageConsumer, after(DELAY)).createDocumentsConsume(emailMessage);
         verify(emailMessageService).emailSender(emailMessage);
         verify(javaMailSender).send(any(SimpleMailMessage.class));
     }
@@ -113,7 +112,7 @@ class DossierApplicationTests {
         final EmailMessage emailMessage = getEmailMessage(Theme.SEND_DOCUMENTS);
         final String message = JSON_MAPPER.writeValueAsString(emailMessage);
         producer.send(new ProducerRecord<>("send-documents", message));
-        verify(emailMessageConsumer, after(DELAY)).sendDocumentsConsume(message);
+        verify(emailMessageConsumer, after(DELAY)).sendDocumentsConsume(emailMessage);
         verify(emailMessageService).emailSender(emailMessage);
         verify(javaMailSender).send(any(SimpleMailMessage.class));
     }
@@ -123,7 +122,7 @@ class DossierApplicationTests {
         final EmailMessage emailMessage = getEmailMessage(Theme.SEND_SES);
         final String message = JSON_MAPPER.writeValueAsString(emailMessage);
         producer.send(new ProducerRecord<>("send-ses", message));
-        verify(emailMessageConsumer, after(DELAY)).sendSesConsume(message);
+        verify(emailMessageConsumer, after(DELAY)).sendSesConsume(emailMessage);
         verify(emailMessageService).emailSender(emailMessage);
         verify(javaMailSender).send(any(SimpleMailMessage.class));
     }
@@ -133,7 +132,7 @@ class DossierApplicationTests {
         final EmailMessage emailMessage = getEmailMessage(Theme.CREDIT_ISSUED);
         final String message = JSON_MAPPER.writeValueAsString(emailMessage);
         producer.send(new ProducerRecord<>("credit-issued", message));
-        verify(emailMessageConsumer, after(DELAY)).creditIssuedConsume(message);
+        verify(emailMessageConsumer, after(DELAY)).creditIssuedConsume(emailMessage);
         verify(emailMessageService).emailSender(emailMessage);
         verify(javaMailSender).send(any(SimpleMailMessage.class));
     }
@@ -143,14 +142,14 @@ class DossierApplicationTests {
         final EmailMessage emailMessage = getEmailMessage(Theme.APPLICATION_DENIED);
         final String message = JSON_MAPPER.writeValueAsString(emailMessage);
         producer.send(new ProducerRecord<>("application-denied", message));
-        verify(emailMessageConsumer, after(DELAY)).applicationDeniedConsume(message);
+        verify(emailMessageConsumer, after(DELAY)).applicationDeniedConsume(emailMessage);
         verify(emailMessageService).emailSender(emailMessage);
         verify(javaMailSender).send(any(SimpleMailMessage.class));
     }
 
     private EmailMessage getEmailMessage(Theme finishRegistration) {
         return EmailMessage.builder()
-            .applicationId(UUID.randomUUID())
+            .applicationId(FAKER.number().randomNumber())
             .address(FAKER.internet().emailAddress())
             .theme(finishRegistration)
             .build();
