@@ -28,6 +28,8 @@ sonar {
         property "sonar.projectKey", "zobnina_dossier"
         property "sonar.organization", "zobnina"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.coverage.exclusions", "**/model/*,**/serialization/*"
+        property "sonar.exclusions", "**/model/*,**/serialization/*"
     }
 }
 
