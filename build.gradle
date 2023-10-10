@@ -33,6 +33,10 @@ sonar {
     }
 }
 
+tasks.bootJar {
+    archiveFileName.set("deal.jar")
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.kafka:spring-kafka'
