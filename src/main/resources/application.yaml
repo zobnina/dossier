@@ -1,0 +1,32 @@
+spring:
+  mail:
+    host: ${MAIL_HOST:smtp.yandex.ru}
+    port: ${MAIL_PORT:465}
+    username: ${MAIL_USERNAME:username}
+    password: ${MAIL_PASSWORD:password}
+    protocol: ${MAIL_PROTOCOL:smtps}
+    default-encoding: UTF-8
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: ${KAFKA_GROUP_ID:dossier}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: ru.neoflex.learning.creaditpipeline.dossier.serialization.EmailMessageDeserializer
+
+kafka:
+  topic:
+    finish-registration: ${KAFKA_TOPIC_FINISH_REGISTRATION:finish-registration}
+    create-documents: ${KAFKA_TOPIC_CREATE_DOCUMENTS:create-documents}
+    send-documents: ${KAFKA_TOPIC_SEND_DOCUMENTS:send-documents}
+    send-ses: ${KAFKA_TOPIC_SEND_SES:send-ses}
+    credit-issued: ${KAFKA_TOPIC_CREDIT_ISSUED:credit-issued}
+    application-denied: ${KAFKA_TOPIC_APPLICATION_DENIED:application-denied}
+
+
+logging:
+  level:
+    ru:
+      neoflex:
+        learning:
+          creaditpipeline:
+            dossier: ${LOG_LEVEL:info}
